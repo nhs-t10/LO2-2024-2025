@@ -74,7 +74,7 @@ public class blueClose extends OpMode {
         switch (step){
             case (0):
                 driveOmni(0,00,-0.5);
-                delayedStop(500);
+                delayedStop(2500);
                 break;
         }
     }
