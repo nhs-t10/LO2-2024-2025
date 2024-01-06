@@ -74,11 +74,11 @@ public class redFar extends OpMode {
         switch (step){
             case (0):
                 driveOmni(0.5,00,0);
-                delayedStop(500);
+                delayedStop(1000);
                 break;
             case (1):
                 driveOmni(0,0,0.5);
-                delayedStop(1000);
+                delayedStop(5000);
                 break;
         }
     }
