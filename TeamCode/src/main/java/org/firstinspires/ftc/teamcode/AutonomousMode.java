@@ -19,6 +19,7 @@ import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
 import org.openftc.easyopencv.OpenCvInternalCamera;
+import org.firstinspires.ftc.robotcore.internal.opmode.TelemetryImpl;
 
 import java.util.List;
 
@@ -154,15 +155,21 @@ public class AutonomousMode extends OpMode {
 
             TeamPropDetector.isTeamPropHere = detector.getLocation();
             if (TeamPropDetector.isTeamPropHere) {
+                telemetry.addLine("Found in middle");
+                telemetry.update();
                 placePurplePixel();
             } else {
                 driveWithTime(0, 0, 0.5, 1000);
                 // check for team prop in front of robot
                 TeamPropDetector.isTeamPropHere = detector.getLocation();
                 if (TeamPropDetector.isTeamPropHere) {
+                    telemetry.addLine("Found on right");
+                    telemetry.update();
                     placePurplePixel();
                 } else {
                     // we assume it's in this third position, if it isn't in the other two.
+                    telemetry.addLine("Assumed on left");
+                    telemetry.update();
                     driveWithTime(0, 0, -0.5, 2000);
                     placePurplePixel();
                 }
