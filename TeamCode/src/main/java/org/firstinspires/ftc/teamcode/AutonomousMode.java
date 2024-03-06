@@ -81,12 +81,22 @@ public class AutonomousMode extends OpMode {
         double frPower = (y - x - rx) / maxValue;
         double brPower = (y + x - rx) / maxValue;
 
-        frontLeft.setPower(flPower);
+        frontLeft.setPower(-flPower);
         frontRight.setPower(frPower);
-        backLeft.setPower(blPower);
+        backLeft.setPower(-blPower);
         backRight.setPower(brPower);
 
 
+    }
+
+    public void driveForTime(double x, double y, double rx, long timeMs) {
+        driveOmni(y, rx, x);
+        try {
+            Thread.sleep(timeMs);
+        } catch (InterruptedException e) {
+
+        }
+        stopRobot();
     }
 
     public void driveWithTime(double y, double rx, double x, double time) {
@@ -111,14 +121,12 @@ public class AutonomousMode extends OpMode {
     public void placePurplePixel() {
         switch (step) {
             case (0):
-                // switched x & y
-                driveOmni(0, 00, 0.5);
-                delayedStop(1500);
+                driveOmni(0.5, 00, 0);
+                delayedStop(3000);
                 break;
             case (1):
-                // switched x & y
-                driveOmni(0, 0, -0.5);
-                delayedStop(15000);
+                driveOmni(-0.5, 0, -0);
+                delayedStop(3000);
                 break;
         }
     }
@@ -146,7 +154,8 @@ public class AutonomousMode extends OpMode {
 
                 }
 
-            });
+            });                TeamPropDetector.isTeamPropHere = detector.getLocation();
+
 
             // Use the TeamPropDetector pipeline
             // processFrame() will be called to process the frame
@@ -154,23 +163,22 @@ public class AutonomousMode extends OpMode {
 
             //...
 
-            RedTeamPropDetector.isTeamPropHere = detector.getLocation();
-            if (RedTeamPropDetector.isTeamPropHere) {
+            driveForTime(0,-0.5,0,1000);
+            TeamPropDetector.isTeamPropHere = detector.getLocation();
+
+            if (TeamPropDetector.isTeamPropHere) {
                 placePurplePixel();
             } else {
-                // switch x & y
-                driveWithTime(0.5, 0, 0, 1000);
+                driveForTime(0.5, 0, 0, 1000);
                 // check for team prop in front of robot
-                RedTeamPropDetector.isTeamPropHere = detector.getLocation();
-                if (RedTeamPropDetector.isTeamPropHere) {
+                TeamPropDetector.isTeamPropHere = detector.getLocation();
+                if (TeamPropDetector.isTeamPropHere) {
                     placePurplePixel();
                 } else {
                     // we assume it's in this third position, if it isn't in the other two.
-                   // switch x & y
-                    driveWithTime(-0.5, 0, 0, 2000);
+                    driveForTime(-0.5, 0, 0, 2000);
                     placePurplePixel();
                 }
-
 
                 // add an if statement about location here, moving differently depending on the location
       /*  switch (step){
