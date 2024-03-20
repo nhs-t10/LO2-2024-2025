@@ -32,6 +32,7 @@ public class DragRaceAuto extends OpMode {
 
     static final double WHITE_THRESHOLD = 0.5;  // spans between 0.0 - 1.0 from dark to light
     static final double APPROACH_SPEED  = 0.25;
+    
 
     public void delayedStop(double delay){
         if (delayStep!=step){
@@ -51,7 +52,9 @@ public class DragRaceAuto extends OpMode {
         frontRight = hardwareMap.get(DcMotor.class, "fr");
         backLeft = hardwareMap.get(DcMotor.class, "bl");
         backRight = hardwareMap.get(DcMotor.class, "br");
+        colorSensor = hardwareMap.get(NormalizedColorSensor.class, "sensor_color");
     }
+    
     public void driveOmni(double y, double rx, double x) {
         double maxValue = Math.max(Math.abs(y) + Math.abs(x) + Math.abs(rx), 1);
         double flPower = (y + x + rx) / maxValue;
