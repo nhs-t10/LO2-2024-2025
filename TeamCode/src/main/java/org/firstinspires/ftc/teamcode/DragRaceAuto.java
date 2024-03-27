@@ -16,7 +16,7 @@ import vision.Webcam;
 @Autonomous
 public class DragRaceAuto extends OpMode {
     //@Override
-// This below here is the code for the actual claw
+    // This below here is the code for the actual claw
 // driveOmni(-1*gamepad1.left_stick_y, 1*gamepad1.right_stick_x, 1*gamepad1.left_stick_x);
     private DcMotor frontLeft;
     private DcMotor frontRight;
@@ -52,11 +52,18 @@ public class DragRaceAuto extends OpMode {
         colorSensor = hardwareMap.get(NormalizedColorSensor.class, "sensor_color");
     }
 
-    double getBrightness() {
-        NormalizedRGBA colors = colorSensor.getNormalizedColors();
-        telemetry.addLine(String.valueOf(colors.alpha));
+    float getBrightness() {
+        NormalizedRGBA colors;
+        colors = colorSensor.getNormalizedColors();
+        //telemetry.addLine(colors.alpha);
+        telemetry.addLine()
+                .addData("Red", "%.3f", colors.red)
+                .addData("Green", "%.3f", colors.green)
+                .addData("Blue", "%.3f", colors.blue);
         telemetry.update();
-        return colors.alpha;
+        float CAlpha = colors.alpha;
+
+        return CAlpha;
     }
 
     public void driveOmni(double y, double rx, double x) {
@@ -83,14 +90,12 @@ public class DragRaceAuto extends OpMode {
     @Override
     public void loop() {
         colorSensor.setGain(15);
-        double color = 0;
+        float color = 0;
+        color = getBrightness();
         while (color < 2 || color > 3) {
             driveOmni(0.2, 00, 0);
             color = getBrightness();
         }
         stopRobot();
-
-
-
     }
 }
